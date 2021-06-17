@@ -1,12 +1,8 @@
-//
-// Created by moboustt on 4/4/2021.
-//
-
 #include "../minishell.h"
 
 const char* commands[7] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
 
-TokenType lookup_type(char *ident) {
+t_token_type lookup_type(char *ident) {
     for (int i = 0; i < 7; ++i) {
         if (strcmp(ident, commands[i]) == 0)
             return command;
@@ -14,17 +10,17 @@ TokenType lookup_type(char *ident) {
     return arg;
 }
 
-t_token *new_token(TokenType token_type, char ch, t_token *token) {
+t_token *new_token(t_token_type token_type, char ch, t_token *token) {
     char *tmp = malloc(2);
-    token->Type = token_type;
+    token->type = token_type;
     tmp[0] = ch;
     tmp[1] = 0;
     token->literal = tmp;
     return token;
 }
 
-t_token *new_token_from_char(TokenType token_type, char *ch, t_token *token) {
-    token->Type = token_type;
+t_token *new_token_from_char(t_token_type token_type, char *ch, t_token *token) {
+    token->type = token_type;
     token->literal = ch;
     return token;
 }

@@ -14,15 +14,15 @@
 
 
 t_error *catch_errors(t_parser *p, t_error *error) {
-    if (p->cur_token->Type  == illegal || p->peek_token->Type  == illegal)
+    if (p->cur_token->type  == illegal || p->peek_token->type  == illegal)
         set_error(error, "Illegal Syntax!");
-    if (p->cur_token->Type == right || p->cur_token->Type == left || p->cur_token->Type == right_append) {
+    if (p->cur_token->type == right || p->cur_token->type == left || p->cur_token->type == right_append) {
         if (!expect_peek(p, *p->lexer, arg))
             set_error(error, ERR1);
-    } else if (p->cur_token->Type == _pipe) {
+    } else if (p->cur_token->type == _pipe) {
         if (expect_peek(p, *p->lexer, _pipe))
             set_error(error, ERR1);
-    } else if (p->cur_token->Type == semicolon) {
+    } else if (p->cur_token->type == semicolon) {
         if (expect_peek(p, *p->lexer, semicolon))
             set_error(error, ERR1);
     }
@@ -30,7 +30,7 @@ t_error *catch_errors(t_parser *p, t_error *error) {
 }
 
 void replace_token(t_parser *p) {
-    if (p->cur_token->Type == tilde)
+    if (p->cur_token->type == tilde)
         p->cur_token->literal = get_var(g_envp,"HOME");
 }
 
@@ -44,7 +44,7 @@ t_node *parse_command(t_node *ast_node, t_parser *p) {
     }
     t_error *error = malloc(sizeof(t_error));
     ft_memset(error, 0, sizeof(t_error));
-    while (p->cur_token->Type != end_of) {
+    while (p->cur_token->type != end_of) {
         replace_token(p);
         catch_errors(p, error);
         if (catch_errors(p, error)->is_error) {
@@ -57,7 +57,7 @@ t_node *parse_command(t_node *ast_node, t_parser *p) {
             // free the token -> tok;
             return NULL;
         }
-        set_node_val_str(arg, p->cur_token->literal, p->cur_token->Type);
+        set_node_val_str(arg, p->cur_token->literal, p->cur_token->type);
         add_child_node(ast_node, arg);
         //tok->str__(tok);
         //free_token(tok);
@@ -85,16 +85,16 @@ t_parser *new_parser(t_lexer *l) {
     return p;
 }
 
-t_bool cur_token_is(t_parser *p, TokenType t) {
-    return p->cur_token->Type == t;
+t_bool cur_token_is(t_parser *p, t_token_type t) {
+    return p->cur_token->type == t;
 }
 
-t_bool peek_token_is(t_parser *p, TokenType t) {
-    return p->peek_token->Type == t;
+t_bool peek_token_is(t_parser *p, t_token_type t) {
+    return p->peek_token->type == t;
 }
 
 
-t_bool expect_peek(t_parser *p, t_lexer l, TokenType t) {
+t_bool expect_peek(t_parser *p, t_lexer l, t_token_type t) {
     if (peek_token_is(p, t)) {
         next_token(&l);
         return true;

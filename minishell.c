@@ -18,7 +18,7 @@ size_t readline(char *line) {
 }
 
 void str__(t_token *tok) {
-    printf("TokenType: [%s], Literal: [%s]\n", getTypeName(tok->Type), tok->literal);
+    printf("TokenType: [%s], Literal: [%s]\n", getTypeName(tok->type), tok->literal);
 }
 
 const char *getTypeName(enum e_val_type type) {
@@ -86,7 +86,7 @@ t_vector *fill_out_vector_with_commands(t_node *ast_node) {
             child = child->next_sibling;
         } else if (child->val.str[0] == '$' && child->val_type == env_var) {
             if (child->val.str != NULL) {
-                char *tmp = handle_env_variables(child->val.str);
+                char *tmp = handle_env_variables(child->val.str, 0, 0);
                 if (tmp != NULL)
                     fill_out_env_command(tmp_cmd, tmp);
             } else
@@ -114,7 +114,7 @@ t_error *check_first_token(t_parser *p) {
     ft_memset(error, 0, sizeof(t_error));
     enum e_val_type types[] = {illegal, end_of, semicolon, _pipe, right, left, right_append};
     for (int i = 0; i < 7; ++i) {
-        if ((p->cur_token->Type == types[i] && p->peek_token->Type == end_of) || p->cur_token->Type == end_of)
+        if ((p->cur_token->type == types[i] && p->peek_token->type == end_of) || p->cur_token->type == end_of)
             set_error(error, ERR1);
     }
     return error;
@@ -141,11 +141,12 @@ void parse_and_execute(t_lexer *lexer) {
     run_cmds((t_vector *) vector);
 }
 
-t_bool check_semicolon_errors(const char *line) {
+t_bool check_semicolon_errors(const char *line)
+{
     t_parser *p = new_parser(new_lexer(line, (int) ft_strlen(line)));
-    while (p->cur_token->Type != end_of) {
+    while (p->cur_token->type != end_of) {
         next_token_p(p);
-        if (p->cur_token->Type == semicolon && p->peek_token->Type == semicolon) {
+        if (p->cur_token->type == semicolon && p->peek_token->type == semicolon) {
             free(p);
             return true;
         }

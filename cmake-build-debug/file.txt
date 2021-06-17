@@ -1,0 +1,12 @@
+total 536
+drwxr-xr-x  11 moboustt  staff     352 Jun 17 23:55 .
+drwxr-xr-x  21 moboustt  staff     672 Jun 17 23:34 ..
+-rw-r--r--   1 moboustt  staff   43531 Jun 17 22:08 CMakeCache.txt
+drwxr-xr-x  15 moboustt  staff     480 Jun 17 23:55 CMakeFiles
+-rwxr-xr-x   1 moboustt  staff  176832 Jun 17 23:55 MINISHELL
+-rw-r--r--   1 moboustt  staff    9267 Jun 17 23:34 MINISHELL.cbp
+-rw-r--r--   1 moboustt  staff   28295 Jun 17 23:34 Makefile
+-rw-r--r--   1 moboustt  staff    2759 Jun 17 22:08 Project.cbp
+drwxr-xr-x   3 moboustt  staff      96 Jun 17 22:12 Testing
+-rw-r--r--   1 moboustt  staff    1565 Jun 17 22:08 cmake_install.cmake
+-rw-r--r--   1 moboustt  staff       0 Jun 17 23:55 file.txt
